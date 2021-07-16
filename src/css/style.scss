@@ -40,6 +40,7 @@ $basicLightbox__timing: ease; // Transition timing
 }
 .list-item img{
     width: 100%;
+    cursor: pointer;
 }
 .pagination-list{
     display: flex;
@@ -49,6 +50,16 @@ $basicLightbox__timing: ease; // Transition timing
 .load-more{
     display: flex;
     margin: 10px auto;
+    border: none;
+    background-color: mediumblue;
+    font-size: 14px;
+    height: 25px;
+    width: 80px;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
 }
 .hide{
     display: none;
@@ -59,7 +70,7 @@ $basicLightbox__timing: ease; // Transition timing
 .photo-card{
     background-color: white;
     display: flex;
-    width: 60%;
+    width: 70%;
     flex-direction: column;
     justify-content: center;
     margin: 0 auto;
@@ -79,3 +90,6 @@ $basicLightbox__timing: ease; // Transition timing
         }
     }
 }
+
+@media (max-width: 767px) { .list-item{width: 45%;}.photo-card{width: 85%;}};
+@media (max-width: 520px) { .list-item{width: 90%;}.photo-card{width: 90%;}}

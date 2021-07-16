@@ -13,6 +13,7 @@ let keyAPI = '22461943-9f424322bef97d692efdefdf4';
 let count = 1;
 
 function fetching(){
+    hideButton();
     let url = `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${event.target.value}&page=${count}&per_page=12&key=${keyAPI}`;
     fetch(url)
     .then(response => response.json())
@@ -22,7 +23,7 @@ function fetching(){
     
 }
 function searchImage(){
-    refs.form.addEventListener('input',(event)=>{
+    refs.form.addEventListener('input',()=>{
         refs.gallery.innerHTML = '';
         fetching();
     });
@@ -35,15 +36,28 @@ function renderList(items){
         listItem.innerHTML = `<img src=${e.webformatURL} alt=""/>`;
         refs.gallery.append(listItem);
     });
-    renderButton();
+    console.log(document.querySelectorAll('.list-item').length);
+    if((document.querySelectorAll('.list-item').length)%12 == 0){
+        renderButton();
+    }
 };
 function renderButton(){
         refs.loadMore.classList.add('show');
         refs.loadMore.classList.remove('hide');
 }
+function hideButton(){
+    refs.loadMore.classList.remove('show');
+    refs.loadMore.classList.add('hide');
+}
 refs.loadMore.addEventListener('click',()=>{
     count++;
     fetching();
+    setTimeout(() => {
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 500);
 });
 function renderFullInfo(res){
     refs.gallery.addEventListener('click',(e)=>{
@@ -74,7 +88,6 @@ function renderFullInfo(res){
                     </div>
                   </div>`
                 )
-                
                 instance.show();
             }
         });
