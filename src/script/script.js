@@ -1,4 +1,6 @@
-import '../css/style.css';
+import '../css/style.scss';
+import * as basicLightbox from 'basiclightbox';
+import "../../node_modules/basiclightbox/dist/basicLightbox.min.css";
 
 const refs = {
     form: document.querySelector('.search-form'),
@@ -14,7 +16,10 @@ function fetching(){
     let url = `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${event.target.value}&page=${count}&per_page=12&key=${keyAPI}`;
     fetch(url)
     .then(response => response.json())
-    .then(res => renderList(res.hits));
+    .then(res =>{ 
+        renderFullInfo(res);
+        return renderList(res.hits)});
+    
 }
 function searchImage(){
     refs.form.addEventListener('input',(event)=>{
@@ -40,3 +45,38 @@ refs.loadMore.addEventListener('click',()=>{
     count++;
     fetching();
 });
+function renderFullInfo(res){
+    refs.gallery.addEventListener('click',(e)=>{
+        if(e.target.nodeName !== 'IMG') return;
+        res.hits.forEach((item)=>{
+            if(e.target.src == item.webformatURL){
+                let {largeImageURL,likes,views,comments,downloads} = item;
+                const instance = basicLightbox.create(
+                    `<div class="photo-card">
+                    <img src=${largeImageURL} alt="" />
+                    <div class="stats">
+                      <p class="stats-item">
+                        <i class="material-icons">thumb_up</i>
+                        ${likes}
+                      </p>
+                      <p class="stats-item">
+                        <i class="material-icons">visibility</i>
+                        ${views}
+                      </p>
+                      <p class="stats-item">
+                        <i class="material-icons">comment</i>
+                        ${comments}
+                      </p>
+                      <p class="stats-item">
+                        <i class="material-icons">cloud_download</i>
+                        ${downloads}
+                      </p>
+                    </div>
+                  </div>`
+                )
+                
+                instance.show();
+            }
+        });
+    });
+}
