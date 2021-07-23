@@ -1,1 +1,1 @@
-https://spuriusgit.github.io/js_hw_12-gh-pages/
+https://spuriusgit.github.io/js_hw_12-gh/
